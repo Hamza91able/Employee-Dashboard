@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import Table from './Table';
+
 
 const styles = theme => ({
     root: {
@@ -30,6 +32,9 @@ const styles = theme => ({
         marginTop: 20,
         width: "unset",
         flexShrink: 0,
+    },
+    table: {
+        marginTop: theme.spacing(10),
     },
     card: {
         minWidth: 200,
@@ -177,8 +182,8 @@ class Dashboard extends React.Component {
                     </Grid>
                 </Grid>
 
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>xs=12</Paper>
+                <Grid item xs={12} className={classes.table}>
+                    <Table />
                 </Grid>
 
             </div>
