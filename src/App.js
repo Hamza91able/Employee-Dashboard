@@ -12,7 +12,7 @@ class App extends React.Component {
 
   state = ({
     hideLogin: true,
-    selectedOptionTable: 'Vacant Shifts - Current',
+    selectedOptionTable: '',
   })
 
   changeSelectedOptionTable = shift => {

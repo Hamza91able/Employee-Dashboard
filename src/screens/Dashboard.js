@@ -81,10 +81,19 @@ class Dashboard extends React.Component {
     state = {
         selection: 'Vacant Shifts - Current',
         tableData: [],
+        noOfVacantShiftsCurrent: 0,
+        noOfFilledShiftsCurrent: 0,
+        noOfUnfilledShiftsCurrent: 0,
+        noOfVacantShiftsHistoric: 0,
+        noOfFilledShiftsHistoric: 0,
+        noOfUnfilledShiftsHistoric: 0,
     }
 
     changeSelection = (shift, timeFrame) => {
         const { changeSelectedOptionTable } = this.props;
+        this.setState(prevState => ({
+            tableData: []
+        }))
 
         this.setState({
             selectiom: shift
@@ -117,7 +126,7 @@ class Dashboard extends React.Component {
                         this.setState(prevState => ({
                             tableData: [...prevState.tableData, obj]
                         }), () => {
-                            console.log(this.state.tableData);
+                            console.log(this.state.tableData)
                         })
                     }
                     else console.log("object already exists");
@@ -127,8 +136,113 @@ class Dashboard extends React.Component {
         })
     }
 
+    fetchNoOfShifts = () => {
+        const fbRef1 = firebase.database().ref().child("Current").child("Vacant Shifts - Current").child("Job");
+        fbRef1.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfVacantShiftsCurrent: returnArr.length
+            })
+        })
+
+        const fbRef2 = firebase.database().ref().child("Current").child("Filled Shifts - Current").child("Job");
+        fbRef2.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfFilledShiftsCurrent: returnArr.length
+            })
+        })
+
+        const fbRef3 = firebase.database().ref().child("Current").child("Unfilled Shifts - Current").child("Job");
+        fbRef3.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfUnfilledShiftsCurrent: returnArr.length
+            })
+        })
+
+        const fbRef4 = firebase.database().ref().child("Historic").child("Vacant Shifts - Historic").child("Job");
+        fbRef4.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfVacantShiftsHistoric: returnArr.length
+            })
+        })
+
+        const fbRef5 = firebase.database().ref().child("Historic").child("Filled Shifts - Historic").child("Job");
+        fbRef5.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfFilledShiftsHistoric: returnArr.length
+            })
+        })
+
+        const fbRef6 = firebase.database().ref().child("Historic").child("Unfilled Shifts - Historic").child("Job");
+        fbRef6.on('value', snapshot => {
+            var returnArr = [];
+
+            snapshot.forEach(childSnapshot => {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+
+                returnArr.push(item);
+            });
+
+            this.setState({
+                noOfUnfilledShiftsHistoric: returnArr.length
+            })
+        })
+
+    }
+
+    componentWillMount() {
+        this.fetchNoOfShifts();
+    }
+
     renderCurrent = () => {
         const { classes } = this.props;
+        const { noOfVacantShiftsCurrent, noOfFilledShiftsCurrent,
+            noOfUnfilledShiftsCurrent } = this.state;
 
         return (
             <React.Fragment>
@@ -140,7 +254,7 @@ class Dashboard extends React.Component {
                         <CardContent className={classes.rowC}>
                             <Typography className={classes.roundCircle}>
                                 <Typography className={classes.r2}>
-                                    12
+                                    {noOfVacantShiftsCurrent}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Vacant Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Vacant Shifts
@@ -148,7 +262,7 @@ class Dashboard extends React.Component {
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CCCC00', background: '#CCCC00' }}>
                                 <Typography className={classes.r2}>
-                                    5
+                                    {noOfFilledShiftsCurrent}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Filled Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Filled Shifts
@@ -156,7 +270,7 @@ class Dashboard extends React.Component {
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CD5C5C', background: '#CD5C5C' }}>
                                 <Typography className={classes.r2}>
-                                    3
+                                    {noOfUnfilledShiftsCurrent}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Unfilled Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts
@@ -171,6 +285,9 @@ class Dashboard extends React.Component {
 
     renderHistoric = () => {
         const { classes } = this.props;
+        const { noOfVacantShiftsHistoric,
+            noOfFilledShiftsHistoric,
+            noOfUnfilledShiftsHistoric, } = this.state;
 
         return (
             <React.Fragment>
@@ -182,7 +299,7 @@ class Dashboard extends React.Component {
                         <CardContent className={classes.rowC}>
                             <Typography className={classes.roundCircle}>
                                 <Typography className={classes.r2}>
-                                    147
+                                    {noOfVacantShiftsHistoric}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Vacant Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Vacant Shifts
@@ -190,7 +307,7 @@ class Dashboard extends React.Component {
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CCCC00', background: '#CCCC00' }}>
                                 <Typography className={classes.r2}>
-                                    136
+                                    {noOfFilledShiftsHistoric}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Filled Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Filled Shifts
@@ -198,7 +315,7 @@ class Dashboard extends React.Component {
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CD5C5C', background: '#CD5C5C' }}>
                                 <Typography className={classes.r2}>
-                                    9
+                                    {noOfUnfilledShiftsHistoric}
                                 </Typography>
                                 <Button onClick={() => this.changeSelection('Unfilled Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts

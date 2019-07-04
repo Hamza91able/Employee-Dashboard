@@ -38,96 +38,98 @@ class SimpleTable extends React.Component {
     render() {
         const { classes, selectedOptionTable, tableData } = this.props;
 
-        return (
-            <Paper className={classes.root}>
-                <Toolbar>
-                    <Typography variant="h6" id="tableTitle">
-                        {selectedOptionTable}
-                    </Typography>
-                </Toolbar>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Job No</TableCell>
-                            <TableCell>Site</TableCell>
-                            <TableCell>Dept/Ward</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Manager</TableCell>
-                            <TableCell>Cost</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {selectedOptionTable === 'Vacant Shifts - Current' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.JobNO}
-                                </TableCell>
-                                <TableCell>{row.Site}</TableCell>
-                                <TableCell>{row.Dept}</TableCell>
-                                <TableCell>{row.Desc}</TableCell>
-                                <TableCell>{row.Manager}</TableCell>
-                                <TableCell>{row.Cost}</TableCell>
+        if (selectedOptionTable !== '')
+            return (
+                <Paper className={classes.root}>
+                    <Toolbar>
+                        <Typography variant="h6" id="tableTitle">
+                            {selectedOptionTable}
+                        </Typography>
+                    </Toolbar>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Job No</TableCell>
+                                <TableCell>Site</TableCell>
+                                <TableCell>Dept/Ward</TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell>Manager</TableCell>
+                                <TableCell>Cost</TableCell>
                             </TableRow>
-                        )) : selectedOptionTable === 'Filled Shifts - Current' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : selectedOptionTable === 'Unfilled Shifts - Current' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : selectedOptionTable === 'Vacant Shifts - Historic' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : selectedOptionTable === 'Filled Shifts - Historic' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : selectedOptionTable === 'Unfilled Shifts - Historic' ? tableData.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : null}
-                    </TableBody>
-                </Table>
-            </Paper>
-        );
+                        </TableHead>
+                        <TableBody>
+                            {selectedOptionTable === 'Vacant Shifts - Current' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : selectedOptionTable === 'Filled Shifts - Current' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : selectedOptionTable === 'Unfilled Shifts - Current' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : selectedOptionTable === 'Vacant Shifts - Historic' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : selectedOptionTable === 'Filled Shifts - Historic' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : selectedOptionTable === 'Unfilled Shifts - Historic' ? tableData.map(row => (
+                                <TableRow key={row.JobNO}>
+                                    <TableCell component="th" scope="row">
+                                        {row.JobNO}
+                                    </TableCell>
+                                    <TableCell>{row.Site}</TableCell>
+                                    <TableCell>{row.Dept}</TableCell>
+                                    <TableCell>{row.Description}</TableCell>
+                                    <TableCell>{row.Manager}</TableCell>
+                                    <TableCell>{row.Cost}</TableCell>
+                                </TableRow>
+                            )) : null}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            );
+        else { return (<React.Fragment></React.Fragment>) }
     }
 }
 
