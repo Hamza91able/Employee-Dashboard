@@ -10,6 +10,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+
+
 const useStyles = theme => ({
     root: {
         width: '100%',
@@ -24,114 +26,6 @@ const useStyles = theme => ({
 class SimpleTable extends React.Component {
 
     state = {
-        vacantShiftsCurrent: [
-            {
-                jobNo: 'HCP102213',
-                site: 'Bexley',
-                dept: 'N/A',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Cooper',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'Islington',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike Holmes',
-                cost: '187',
-            }
-        ],
-        filledShiftsCurrent: [
-            {
-                jobNo: 'HCP102213',
-                site: 'TEST',
-                dept: 'N/A',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Cooper',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'TEST',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike Holmes',
-                cost: '187',
-            }
-        ],
-        unfilledShiftsCurrent: [
-            {
-                jobNo: 'HCP102213',
-                site: 'Bexley',
-                dept: 'TEST',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Cooper',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'Islington',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike Holmes',
-                cost: '200',
-            }
-        ],
-        vacantShiftsHistoric: [
-            {
-                jobNo: 'HCP102213',
-                site: 'Bexley',
-                dept: 'N/A',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Hilda',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'Islington',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike Holmes',
-                cost: '187',
-            }
-        ],
-        filledShiftsHistoric: [
-            {
-                jobNo: 'HCP102213',
-                site: 'Bexley',
-                dept: 'N/A',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Cooper',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'Islington',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike TEST',
-                cost: '187',
-            }
-        ],
-        unfilledShiftsHistoric: [
-            {
-                jobNo: 'HCP102213',
-                site: 'HAHA',
-                dept: 'N/A',
-                desc: 'RN - Palliative Care or General Nurse',
-                manager: 'Belinda Cooper',
-                cost: '278',
-            },
-            {
-                jobNo: 'HCP102221',
-                site: 'Islington',
-                dept: 'Bariatric',
-                desc: 'Health Care Assistant',
-                manager: 'Mike Holmes',
-                cost: '187',
-            }
-        ],
         selectedOption: 'Vacant Shifts - Current',
     }
 
@@ -142,8 +36,7 @@ class SimpleTable extends React.Component {
     }
 
     render() {
-        const { classes, selectedOptionTable } = this.props;
-        const { vacantShiftsCurrent, filledShiftsCurrent, unfilledShiftsCurrent, vacantShiftsHistoric, filledShiftsHistoric, unfilledShiftsHistoric } = this.state;
+        const { classes, selectedOptionTable, tableData } = this.props;
 
         return (
             <Paper className={classes.root}>
@@ -164,7 +57,18 @@ class SimpleTable extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {selectedOptionTable === 'Vacant Shifts - Current' ? vacantShiftsCurrent.map(row => (
+                        {selectedOptionTable === 'Vacant Shifts - Current' ? tableData.map(row => (
+                            <TableRow key={row.jobno}>
+                                <TableCell component="th" scope="row">
+                                    {row.JobNO}
+                                </TableCell>
+                                <TableCell>{row.Site}</TableCell>
+                                <TableCell>{row.Dept}</TableCell>
+                                <TableCell>{row.Desc}</TableCell>
+                                <TableCell>{row.Manager}</TableCell>
+                                <TableCell>{row.Cost}</TableCell>
+                            </TableRow>
+                        )) : selectedOptionTable === 'Filled Shifts - Current' ? tableData.map(row => (
                             <TableRow key={row.jobno}>
                                 <TableCell component="th" scope="row">
                                     {row.jobNo}
@@ -175,7 +79,7 @@ class SimpleTable extends React.Component {
                                 <TableCell>{row.manager}</TableCell>
                                 <TableCell>{row.cost}</TableCell>
                             </TableRow>
-                        )) : selectedOptionTable === 'Filled Shifts - Current' ? filledShiftsCurrent.map(row => (
+                        )) : selectedOptionTable === 'Unfilled Shifts - Current' ? tableData.map(row => (
                             <TableRow key={row.jobno}>
                                 <TableCell component="th" scope="row">
                                     {row.jobNo}
@@ -186,7 +90,7 @@ class SimpleTable extends React.Component {
                                 <TableCell>{row.manager}</TableCell>
                                 <TableCell>{row.cost}</TableCell>
                             </TableRow>
-                        )) : selectedOptionTable === 'Unfilled Shifts - Current' ? unfilledShiftsCurrent.map(row => (
+                        )) : selectedOptionTable === 'Vacant Shifts - Historic' ? tableData.map(row => (
                             <TableRow key={row.jobno}>
                                 <TableCell component="th" scope="row">
                                     {row.jobNo}
@@ -197,7 +101,7 @@ class SimpleTable extends React.Component {
                                 <TableCell>{row.manager}</TableCell>
                                 <TableCell>{row.cost}</TableCell>
                             </TableRow>
-                        )) : selectedOptionTable === 'Vacant Shifts - Historic' ? vacantShiftsHistoric.map(row => (
+                        )) : selectedOptionTable === 'Filled Shifts - Historic' ? tableData.map(row => (
                             <TableRow key={row.jobno}>
                                 <TableCell component="th" scope="row">
                                     {row.jobNo}
@@ -208,18 +112,7 @@ class SimpleTable extends React.Component {
                                 <TableCell>{row.manager}</TableCell>
                                 <TableCell>{row.cost}</TableCell>
                             </TableRow>
-                        )): selectedOptionTable === 'Filled Shifts - Historic' ? filledShiftsHistoric.map(row => (
-                            <TableRow key={row.jobno}>
-                                <TableCell component="th" scope="row">
-                                    {row.jobNo}
-                                </TableCell>
-                                <TableCell>{row.site}</TableCell>
-                                <TableCell>{row.dept}</TableCell>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell>{row.manager}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
-                            </TableRow>
-                        )) : selectedOptionTable === 'Unfilled Shifts - Historic' ? unfilledShiftsHistoric.map(row => (
+                        )) : selectedOptionTable === 'Unfilled Shifts - Historic' ? tableData.map(row => (
                             <TableRow key={row.jobno}>
                                 <TableCell component="th" scope="row">
                                     {row.jobNo}

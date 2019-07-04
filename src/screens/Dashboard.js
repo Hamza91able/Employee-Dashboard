@@ -8,7 +8,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
+//Screens
 import Table from './Table';
+
+//Util
+import firebase from '../util/firebase';
+
 
 
 const styles = theme => ({
@@ -74,16 +79,51 @@ const styles = theme => ({
 class Dashboard extends React.Component {
 
     state = {
-        selection: 'Vacant Shifts - Current'
+        selection: 'Vacant Shifts - Current',
+        tableData: [],
     }
 
-    changeSelection = shift => {
+    changeSelection = (shift, timeFrame) => {
         const { changeSelectedOptionTable } = this.props;
 
         this.setState({
             selectiom: shift
         }, () => {
             changeSelectedOptionTable(shift);
+            this.fetchData(shift, timeFrame);
+        })
+    }
+
+    fetchData = (shift, timeFrame) => {
+        const { tableData } = this.state;
+
+        const fbRef = firebase.database().ref().child(timeFrame).child(shift);
+        fbRef.on('value', snap => {
+            var initialPathJob = snap.val();
+            if (initialPathJob !== null) {
+                Object.getOwnPropertyNames(initialPathJob.Job).forEach(value => {
+                    var idToCompare = snap.val().Job[value].DeptID;
+                    var obj = {
+                        JobNO: initialPathJob.Job[value].JobID,
+                        Site: snap.val().Site[idToCompare].Name,
+                        Dept: snap.val().Dept[idToCompare].Name,
+                        Description: snap.val().Desc[idToCompare].Name,
+                        Manager: snap.val().Personnel[idToCompare].Name,
+                        Cost: initialPathJob.Job[value].Cost,
+                    }
+
+                    var index = tableData.findIndex(x => x.JobNO == value)
+                    if (index === -1) {
+                        this.setState(prevState => ({
+                            tableData: [...prevState.tableData, obj]
+                        }), () => {
+                            console.log(this.state.tableData);
+                        })
+                    }
+                    else console.log("object already exists");
+                })
+            }
+
         })
     }
 
@@ -102,7 +142,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     12
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Vacant Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Vacant Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Vacant Shifts
                                 </Button>
                             </Typography>
@@ -110,7 +150,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     5
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Filled Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Filled Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Filled Shifts
                                 </Button>
                             </Typography>
@@ -118,7 +158,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     3
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Current', 'Current')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts
                                 </Button>
                             </Typography>
@@ -144,7 +184,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     147
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Vacant Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Vacant Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Vacant Shifts
                                 </Button>
                             </Typography>
@@ -152,7 +192,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     136
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Filled Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Filled Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Filled Shifts
                                 </Button>
                             </Typography>
@@ -160,7 +200,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     9
                                 </Typography>
-                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Historic', 'Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts
                                 </Button>
                             </Typography>
@@ -172,7 +212,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { classes, selectedOptionTable={selectedOptionTable} } = this.props;
+        const { classes, selectedOptionTable = { selectedOptionTable } } = this.props;
 
         return (
             <div className={classes.root}>
@@ -196,7 +236,7 @@ class Dashboard extends React.Component {
                 </Grid>
 
                 <Grid item xs={12} className={classes.table}>
-                    <Table selectedOptionTable={selectedOptionTable}/>
+                    <Table selectedOptionTable={selectedOptionTable} tableData={this.state.tableData} />
                 </Grid>
 
             </div>
