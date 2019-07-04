@@ -34,10 +34,10 @@ export default function Appbar() {
                     <Typography variant="h6" className={classes.title}>
                         Management System
                     </Typography>
-                    <Button edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+                    {/* <Button edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MessageIcon className={classes.menuIcon} />
                         Message Centre
-                    </Button>
+                    </Button> */}
                 </Toolbar>
             </AppBar>
         </div>
