@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -53,7 +53,7 @@ export default function SimpleTabs() {
                     <Tab label="Favourites" />
                 </Tabs>
             </AppBar>
-            {value === 0 && <TabContainer><Dashboard /></TabContainer>}
+            {value === 0 && <TabContainer><Dashboard changeSelectedOptionTable={props.changeSelectedOptionTable} selectedOptionTable={props.selectedOptionTable} /></TabContainer>}
             {value === 1 && <TabContainer>Item Two</TabContainer>}
             {value === 2 && <TabContainer>Item Three</TabContainer>}
             {value === 3 && <TabContainer>Item Four</TabContainer>}

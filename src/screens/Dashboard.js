@@ -73,6 +73,20 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
 
+    state = {
+        selection: 'Vacant Shifts - Current'
+    }
+
+    changeSelection = shift => {
+        const { changeSelectedOptionTable } = this.props;
+
+        this.setState({
+            selectiom: shift
+        }, () => {
+            changeSelectedOptionTable(shift);
+        })
+    }
+
     renderCurrent = () => {
         const { classes } = this.props;
 
@@ -88,23 +102,23 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     12
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
-                                    Filled Shifts
+                                <Button onClick={() => this.changeSelection('Vacant Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
+                                    Vacant Shifts
                                 </Button>
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CCCC00', background: '#CCCC00' }}>
                                 <Typography className={classes.r2}>
                                     5
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
-                                    Vacant Shifts
+                                <Button onClick={() => this.changeSelection('Filled Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
+                                    Filled Shifts
                                 </Button>
                             </Typography>
                             <Typography className={classes.roundCircle} style={{ border: '0.1em solid #CD5C5C', background: '#CD5C5C' }}>
                                 <Typography className={classes.r2}>
                                     3
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Current')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts
                                 </Button>
                             </Typography>
@@ -130,7 +144,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     147
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Vacant Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Vacant Shifts
                                 </Button>
                             </Typography>
@@ -138,7 +152,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     136
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Filled Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Filled Shifts
                                 </Button>
                             </Typography>
@@ -146,7 +160,7 @@ class Dashboard extends React.Component {
                                 <Typography className={classes.r2}>
                                     9
                                 </Typography>
-                                <Button color='primary' style={{ marginTop: 30 }}>
+                                <Button onClick={() => this.changeSelection('Unfilled Shifts - Historic')} color='primary' style={{ marginTop: 30 }}>
                                     Unfilled Shifts
                                 </Button>
                             </Typography>
@@ -158,7 +172,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, selectedOptionTable={selectedOptionTable} } = this.props;
 
         return (
             <div className={classes.root}>
@@ -182,7 +196,7 @@ class Dashboard extends React.Component {
                 </Grid>
 
                 <Grid item xs={12} className={classes.table}>
-                    <Table />
+                    <Table selectedOptionTable={selectedOptionTable}/>
                 </Grid>
 
             </div>
